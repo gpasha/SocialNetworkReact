@@ -4,7 +4,7 @@ import Message from './message/Message.jsx';
 
 const Messages = (props) => {
     
-    let messagesElements = props.messages.map( m => <Message message={m.message}/>);
+    let messagesElements = props.messages.map( m => <Message key={m.id} message={m.message}/>);
 
     let addMessage = () => {
         props.addMessage();

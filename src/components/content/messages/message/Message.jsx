@@ -3,7 +3,7 @@ import './Message.css';
 
 const Message = (props) => {
     return (
-        <div className="message">{props.message}</div>
+        <div className="message" key={props.id}>{props.message}</div>
     )
 }
 

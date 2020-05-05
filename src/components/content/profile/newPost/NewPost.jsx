@@ -4,7 +4,7 @@ import Post from "./../post/Post.jsx";
 
 const NewPost = (props) => {
     console.log("props: ", props);
-    let PostBlock = props.profilePage.posts.map( post => <Post message={post.message} likes={post.likeCount}/> );    
+    let PostBlock = props.profilePage.posts.map( post => <Post key={post.id} message={post.message} likes={post.likeCount}/> );    
 
     let addPost = () => {      
         props.onAddPost();
@@ -16,7 +16,7 @@ const NewPost = (props) => {
     }
 
     return (
-        <div className="newPost">
+        <div className="newPost" >
             <div className="newPost__label">My Post</div> 
             <div className="newPost__textArea">
                 <textarea value={props.profilePage.newPostText}

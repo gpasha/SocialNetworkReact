@@ -1,13 +1,15 @@
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
 const SET_USERS = "SET_USERS";
+const SET_USERS_TOTAL_COUNT = "SET_USERS_TOTAL_COUNT";
+const CHANGE_CURRENT_PAGE = "CHANGE_CURRENT_PAGE";
+const USER_PAGE_COUNT = 4;
 
 let initialState = {
-    users: [
-        // {id: 1, followed: true, photoUrl: 'https://vokrug.tv/pic/news/9/f/4/6/9f466307ab9f357c0db710631834bc95.jpg', fullName: "Dmitriy", status: "I am free", location: {city: "Minsk", country: "Belarus"}},
-        // {id: 2, followed: false, photoUrl: 'https://vokrug.tv/pic/news/9/f/4/6/9f466307ab9f357c0db710631834bc95.jpg', fullName: "Maxim", status: "I am free too", location: {city: "Moscow", country: "Russia"}},
-        // {id: 3, followed: true, photoUrl: 'https://vokrug.tv/pic/news/9/f/4/6/9f466307ab9f357c0db710631834bc95.jpg', fullName: "Svetlana", status: "I am in relation", location: {city: "Grodno", country: "Belarus"}},
-    ]
+    users: [],
+    pageSize: USER_PAGE_COUNT,
+    totalCount: 0,
+    currentPage: 1
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -36,7 +38,18 @@ const usersReducer = (state = initialState, action) => {
         case SET_USERS:
             return {
                 ...state,
-                users: [...state.users, ...action.users]
+                // users: [...state.users, ...action.users]
+                users: [...action.users]
+            }
+        case SET_USERS_TOTAL_COUNT:
+            return {
+                ...state,
+                totalCount: action.totalCount
+            }
+        case CHANGE_CURRENT_PAGE:
+            return {
+                ...state,
+                currentPage: action.page
             }    
         default:
             return state;
@@ -46,5 +59,7 @@ const usersReducer = (state = initialState, action) => {
 export const fullowActionCreator = (userId) => ({ type: FOLLOW, userId });
 export const unfullowActionCreator = (userId) =>({ type: UNFOLLOW, userId });
 export const setUsers = (users) =>({ type: SET_USERS, users });
+export const setUserTotalCountAC = (totalCount) =>({ type: SET_USERS_TOTAL_COUNT, totalCount });
+export const changeCurrentPageAC = (page) =>({ type: CHANGE_CURRENT_PAGE, page });
     
 export default usersReducer;
