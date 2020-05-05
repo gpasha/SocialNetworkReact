@@ -1,0 +1,12 @@
+.communication {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.dialogs,
+.messages {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
