@@ -1,6 +1,7 @@
 import React from 'react';
 import './Users.css';
-import userPhoto from './../../../Assets/userProfile.png';
+import userPhoto from './../../../Assets/img/userProfile.png';
+import { Link  } from 'react-router-dom';
 
 const Users = (props) => {
 
@@ -8,12 +9,12 @@ const Users = (props) => {
         let pages = [];
     
         for ( let i = 1; i <= pagesCount; i++ ) {
-            if ( i < 10 ) {
+            if ( i > pagesCount - 10 ) {
                 pages.push(i);
             }
-            else {
-                break
-            }
+            // else {
+            //     break
+            // }
         }
 
         return (
@@ -27,34 +28,36 @@ const Users = (props) => {
                 </div>
                 {props.users.map( u => {
                         return (
-                            <div className="user" key={u.id}>
-                                <div className="user__left">
-                                    <div className="user__img">
-                                        <img src={u.photos.small != null ? u.photos.small : userPhoto} className="user__photo"></img>
+                            <Link  to={"/profile/" + u.id} key={u.id}>
+                                <div className="user" >
+                                    <div className="user__left">
+                                        <div className="user__img">
+                                            <img src={u.photos.small != null ? u.photos.small : userPhoto} className="user__photo"></img>
+                                        </div>
+                                        <div className="user__followwed">
+                                            { u.followed  ? <button onClick={() => props.unfollow(u.id)}>unfollow</button> : <button id={u.id}  onClick={ () => props.follow(u.id)}>follow</button> }
+                                        </div>
                                     </div>
-                                    <div className="user__followwed">
-                                        { u.followed  ? <button onClick={() => props.unfollow(u.id)}>unfollow</button> : <button id={u.id}  onClick={ () => props.follow(u.id)}>follow</button> }
+                                    <div className="user__right"> 
+                                        <div className="user__content">
+                                            <div className="user__fullname">                 
+                                                {u.name}
+                                            </div>
+                                            <div className="user__status">                
+                                                {u.status}
+                                            </div>
+                                        </div>
+                                        <div className="user__location">
+                                            <div className="user__city">
+                                                {/* {u.location.city}                   */}
+                                            </div>
+                                            <div className="user__country">
+                                                {/* {u.location.country}            */}
+                                            </div>
+                                        </div>      
                                     </div>
                                 </div>
-                                <div className="user__right"> 
-                                    <div className="user__content">
-                                        <div className="user__fullname">                 
-                                            {u.name}
-                                        </div>
-                                        <div className="user__status">                
-                                            {u.status}
-                                        </div>
-                                    </div>
-                                    <div className="user__location">
-                                        <div className="user__city">
-                                            {/* {u.location.city}                   */}
-                                        </div>
-                                        <div className="user__country">
-                                            {/* {u.location.country}            */}
-                                        </div>
-                                    </div>      
-                                </div>
-                            </div>
+                            </Link >
                         )
                     })}
             </div>

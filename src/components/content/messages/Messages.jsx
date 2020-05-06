@@ -10,9 +10,9 @@ const Messages = (props) => {
         props.addMessage();
     }
 
-    let changeMessage = (event) => {
+    let updateNewMessage = (event) => {
         let newMesaage = event.target.value;        
-        props.changeMessage(newMesaage);
+        props.updateNewMessage(newMesaage);
     }
 
     return (
@@ -20,7 +20,7 @@ const Messages = (props) => {
             <div className="messages">
                 { messagesElements }        
                 <div>
-                    <textarea value={props.newMessageText} onChange={changeMessage}></textarea>
+                    <textarea value={props.newMessageText} onChange={updateNewMessage}></textarea>
                     <button onClick={addMessage}>Send Message</button>
                 </div>    
             </div>

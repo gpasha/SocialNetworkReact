@@ -7,12 +7,12 @@ const NewPost = (props) => {
     let PostBlock = props.profilePage.posts.map( post => <Post key={post.id} message={post.message} likes={post.likeCount}/> );    
 
     let addPost = () => {      
-        props.onAddPost();
+        props.addPost();
     }
 
     let updateTextPost = (e) => {
         let text = e.target.value;
-        props.onUpdateTextPost(text);
+        props.updateTextPost(text);
     }
 
     return (

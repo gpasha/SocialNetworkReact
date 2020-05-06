@@ -1,6 +1,6 @@
 import React from 'react';
 import Messages from './Messages.jsx';
-import {addMessageActionCreator, updateNewMessageActionCreator} from './../../../reduxFoulder/messagesReducer.js';
+import {addMessage, updateNewMessage} from './../../../reduxFoulder/messagesReducer.js';
 import { connect } from 'react-redux';
 
 // const MessagesContainer = (props) => {
@@ -22,7 +22,7 @@ import { connect } from 'react-redux';
 // }
 
 
-let f1 = (state) => {
+let mapStateToProps = (state) => {
     return {
         messages: state.messagesPage.messages,
         newMessageText: state.messagesPage.newMessageText,
@@ -30,17 +30,6 @@ let f1 = (state) => {
     }
 };
 
-let f2 = (dispatch) => {
-    return {
-        addMessage: () => {
-            dispatch(addMessageActionCreator())
-        },
-        changeMessage: (value) => {
-            dispatch(updateNewMessageActionCreator(value))
-        }
-    }
-}
-
-const MessagesContainer = connect(f1, f2)(Messages);
+const MessagesContainer = connect(mapStateToProps, { addMessage, updateNewMessage })(Messages);
 
 export default MessagesContainer;

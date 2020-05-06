@@ -1,0 +1,27 @@
+.profile-info {
+    display: flex;
+}
+
+.profile-info .profile-info__img-block {    
+    width: 250px;
+}
+
+.profile-info .profile-info__photo {    
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-info .profile-info__content-block {
+    flex-grow: 1;
+}
+
+.profile-info .profile-info__content {    
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-info .profile-info__item {
+    display: flex;
+    justify-content: space-between;
+}
