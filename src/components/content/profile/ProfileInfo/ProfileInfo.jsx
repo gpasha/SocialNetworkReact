@@ -1,54 +1,77 @@
 import React from 'react';
 import './ProfileInfo.css';
 
-const ProfileInfo = (props) => {
-    
-    console.log("props.profileData: ", props.profileData);
-    
-    let profile = props.profileData;
+class ProfileInfo extends React.Component {
 
-    if ( !profile ) {
-        return null;
+    state = {
+        editMode: false
     }
-    return (
-        <div className="profile-info">
-            <div className="profile-info__img-block">
-                <img className="profile-info__photo" src={profile.photos.large}/>
-            </div>
-            <div className="profile-info__content-block">
-                <div className="profile-info__name">{profile.fullName}</div>
-                <div className="profile-info__content">
-                    <div className="profile-info__content-title">Profile information</div>
-                    <div className="profile-info__item">
-                        <div className="profile-info__item-name">Status</div>
-                        <div className="profile-info__item-value">
-                            {profile.aboutMe}
+
+    activateEditMode() {
+        this.setState({
+            editMode:  true
+        });
+    }
+
+    deactivateEditMode() {
+        this.setState({
+            editMode:  false
+        });
+    }
+
+    render() {
+        console.log("this.state: ", this.state);
+        console.log("this.state.profile: ", this.state.profile);
+        console.log("this.props.profile: ", this.props.profileData);
+        
+        if ( !this.props.profileData ) {
+            return null;
+        }
+        return (
+            <div className="profile-info">
+                <div className="profile-info__img-block">
+                    <img className="profile-info__photo" src={this.props.profileData.photos.large}/>
+                </div>
+                <div className="profile-info__content-block">
+                    <div className="profile-info__name">{this.props.profileData.fullName}</div>
+                    <div className="profile-info__content">
+                        <div className="profile-info__content-title">Profile information</div>  
+                        { !this.state.editMode &&
+                            <div className="profile-info__content-title" onDoubleClick={this.activateEditMode.bind(this)} >{this.props.profileData.aboutMe}</div> 
+                        }
+                        { this.state.editMode &&                                        
+                            <div className="profile-info__content-title">
+                                <input value={this.props.profileData.aboutMe} autoFocus={true} onBlur={this.deactivateEditMode.bind(this)} />
+                            </div>
+                        }
+                        <div className="profile-info__item">
+                            <div className="profile-info__item-name">Status</div>
+                            <div className="profile-info__item-value">
+                                {this.props.profileData.aboutMe}
+                            </div>
                         </div>
-                    </div>
-                    <div className="profile-info__item">
-                        <div className="profile-info__item-name">facebook</div>
-                        <div className="profile-info__item-value">
-                        <a href={profile.contacts.vk} target="_blank"> {profile.contacts.facebook} </a>
+                        <div className="profile-info__item">
+                            <div className="profile-info__item-name">facebook</div>
+                            <div className="profile-info__item-value">
+                            <a href={this.props.profileData.contacts.vk} target="_blank"> {this.props.profileData.contacts.facebook} </a>
+                            </div>
                         </div>
-                    </div>
-                    <div className="profile-info__item">
-                        <div className="profile-info__item-name">vk</div>
-                        <div className="profile-info__item-value">
-                            <a href={profile.contacts.vk} target="_blank"> {profile.contacts.vk} </a>
+                        <div className="profile-info__item">
+                            <div className="profile-info__item-name">vk</div>
+                            <div className="profile-info__item-value">
+                                <a href={this.props.profileData.contacts.vk} target="_blank"> {this.props.profileData.contacts.vk} </a>
+                            </div>
                         </div>
-                    </div>
-                    <div className="profile-info__item">
-                        <div className="profile-info__item-name">twitter</div>
-                        <div className="profile-info__item-value">
-                            <a href={profile.contacts.twitter} target="_blank"> {profile.contacts.twitter} </a>                            
+                        <div className="profile-info__item">
+                            <div className="profile-info__item-name">twitter</div>
+                            <div className="profile-info__item-value">
+                                <a href={this.props.profileData.contacts.twitter} target="_blank"> {this.props.profileData.contacts.twitter} </a>                            
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>)
-
-    
-    
+            </div>)
+    }    
 }
 
 export default ProfileInfo;

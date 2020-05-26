@@ -1,30 +1,20 @@
 import React from 'react';
 import Users from './Users';
 import Preloader from '../../preloader/preloader';
-import { follow, unfollow, setUsers, setUserTotalCount, changeCurrentPage, toggleFeth } from '../../../reduxFoulder/usersReducer.js';
+import { follow, unfollow,  changeCurrentPage, toggleFeth, getUsers } from '../../../reduxFoulder/usersReducer.js';
 import { connect } from 'react-redux';
-import * as axios from 'axios';
+import { compose } from 'redux';
+import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 
 class UsersApiContainer extends React.Component {
 
     componentDidMount() {
-        this.props.toggleFeth(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`).then( response => {
-            console.log("response: ", response);
-            this.props.setUsers(response.data.items);
-            this.props.setUserTotalCount(response.data.totalCount);
-            this.props.toggleFeth(false);
-        })
+        this.props.getUsers(this.props.currentPage, this.props.pageSize);
     }
 
     changePage = (page) => {
-        this.props.toggleFeth(true);
+        this.props.getUsers(page, this.props.pageSize);
         this.props.changeCurrentPage(page);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${page}&count=${this.props.pageSize}`).then( response => {
-            console.log("response: ", response);
-            this.props.setUsers(response.data.items);
-            this.props.toggleFeth(false);
-        })
     }
 
     render() {
@@ -38,7 +28,10 @@ class UsersApiContainer extends React.Component {
                             pageSize={this.props.pageSize}
                             totalCount={this.props.totalCount}
                             currentPage={this.props.currentPage}
-                            changePage={this.changePage}/>
+                            changePage={this.changePage}
+                            follow={this.props.follow}
+                            unfollow={this.props.unfollow}
+                            isAuth={this.props.isAuth}/>
             </div>)
     }
 }
@@ -53,13 +46,13 @@ let mapStateToProp = (state) => {
     }
 }
 
-const UsersContainer =  connect(mapStateToProp, {
-                            follow,
-                            unfollow,
-                            setUsers,
-                            setUserTotalCount,
-                            changeCurrentPage,
-                            toggleFeth
-                        })(UsersApiContainer);
-
-export default UsersContainer;
+export default compose(
+    connect(mapStateToProp, {
+        follow,
+        unfollow,
+        changeCurrentPage,
+        toggleFeth,
+        getUsers
+    }),
+    withAuthRedirect
+)(UsersApiContainer);

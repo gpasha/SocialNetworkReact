@@ -1,3 +1,4 @@
+import { profileAPI } from '../api/api';
 
 const SET_PROFILE_DATA = "SET_PROFILE_DATA";
 const ADD_POST = "ADD-POST";
@@ -59,5 +60,18 @@ export const setProfileData = (profileData) => ({ type: SET_PROFILE_DATA, profil
 export const addPost = () => ({ type: ADD_POST });
 export const updateTextPost = (text) => ({ type: UPDATE_NEW_POST_TEXT , newText: text });
 export const toggleFeth = (isFetching) =>({ type: TOGGLE_FETCH, isFetching });
+
+export const getProfile = (userId) => {
+    return (dispatch) => {
+        dispatch(toggleFeth(true));
+        if ( !userId ) {
+            userId = 2;
+        }
+        profileAPI.getProfile(userId).then( response => {
+            dispatch(setProfileData(response));
+            dispatch(toggleFeth(false));
+        })
+    }
+}
     
 export default profileReducer;

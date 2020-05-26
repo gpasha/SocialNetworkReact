@@ -1,3 +1,4 @@
+import { authAPI } from '../api/api';
 
 const SET_AUTH_DATA = "SET_AUTH_DATA";
 const TOGGLE_FETCH = "TOGGLE_FETCH";
@@ -31,5 +32,16 @@ const authorizeReducer = (state = initialState, action) => {
 
 export const setProfileData = ({id, email, login}) => ({ type: SET_AUTH_DATA, authData: {id, email, login}});
 export const toggleFeth = (isFetching) =>({ type: TOGGLE_FETCH, isFetching });
+
+export const authorize = () => (dispath) => {
+    dispath(toggleFeth(true));
+    authAPI.authorize().then( response => {
+        if ( response.resultCode === 0 ) {
+            let data = response.data;
+            dispath(setProfileData({id: data.id, email: data.email, login: data.login}))
+            dispath(toggleFeth(false));
+        }
+    })
+}
     
 export default authorizeReducer;

@@ -1,32 +1,17 @@
 import React from 'react';
 import Header from './Header';
-import axios from 'axios';
 import { connect } from 'react-redux';
-import { setProfileData, toggleFeth } from '../../reduxFoulder/authorizeReducer';
-import Preloader from '../preloader/preloader';
-import ProfileContainer from '../content/profile/ProfileContainer';
+import { authorize } from '../../reduxFoulder/authorizeReducer';
+
 
 class HeaderContainer extends React.Component {
   
   componentDidMount() {
-    this.props.toggleFeth(true)
-    axios.get("https://social-network.samuraijs.com/api/1.0/auth/me", { withCredentials: true })
-         .then( response => {
-           console.log("response from HeaderContainer: ", response);
-           let data = response.data.data;
-           this.props.setProfileData({id: data.id, email: data.email, login: data.login})
-           this.props.toggleFeth(false);
-           
-           console.log("this.props from HeaderContainer: ", this.props);
-         })
+    this.props.authorize()
   }
 
   render() {
-    return <>
-      { this.props.isFetching
-        ? <Preloader />
-        : <Header {...this.props} /> }
-    </>
+    return <Header {...this.props} />
   }    
 }
 
@@ -40,4 +25,4 @@ let mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps,{ setProfileData, toggleFeth })(HeaderContainer);
+export default connect(mapStateToProps,{ authorize })(HeaderContainer);

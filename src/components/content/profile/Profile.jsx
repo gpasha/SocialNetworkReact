@@ -4,15 +4,13 @@ import NewPostContainer from './newPost/NewPostContainer.jsx';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 
 const Profile = (props) => {
-
     return (
-        <div className="profile">
-
-            <ProfileInfo profileData={props.profileData}/>
-
-            <NewPostContainer />
-
-        </div>
+        <>
+            <div className="profile">
+                <ProfileInfo profileData={props.profileData}/>
+                <NewPostContainer />
+            </div>
+        </>
     )
 }
 

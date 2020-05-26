@@ -1,9 +1,12 @@
 import React from 'react';
 import './Users.css';
 import userPhoto from './../../../Assets/img/userProfile.png';
-import { Link  } from 'react-router-dom';
+import { Link, Redirect  } from 'react-router-dom';
+import Preloader from '../../preloader/preloader';
 
 const Users = (props) => {
+
+        console.log("props from Users: ", props)
 
         let pagesCount = Math.ceil( props.totalCount / props.pageSize );
         let pages = [];
@@ -16,9 +19,10 @@ const Users = (props) => {
             //     break
             // }
         }
-
+        
         return (
             <div>
+                { props.isFetching ? <Preloader /> : null }
                 <div className="pagination">
                     {
                         pages.map( p => {
@@ -28,14 +32,17 @@ const Users = (props) => {
                 </div>
                 {props.users.map( u => {
                         return (
-                            <Link  to={"/profile/" + u.id} key={u.id}>
                                 <div className="user" >
                                     <div className="user__left">
-                                        <div className="user__img">
-                                            <img src={u.photos.small != null ? u.photos.small : userPhoto} className="user__photo"></img>
-                                        </div>
+                                        <Link  to={"/profile/" + u.id} key={u.id}>
+                                            <div className="user__img">
+                                                <img src={u.photos.small != null ? u.photos.small : userPhoto} className="user__photo"></img>
+                                            </div>
+                                        </Link >
                                         <div className="user__followwed">
-                                            { u.followed  ? <button onClick={() => props.unfollow(u.id)}>unfollow</button> : <button id={u.id}  onClick={ () => props.follow(u.id)}>follow</button> }
+                                            { u.followed 
+                                                ? <button onClick={() => { props.unfollow(u.id) }}>unfollow</button>
+                                                : <button id={u.id}  onClick={ () => { props.follow(u.id) }}>follow</button> }
                                         </div>
                                     </div>
                                     <div className="user__right"> 
@@ -57,7 +64,6 @@ const Users = (props) => {
                                         </div>      
                                     </div>
                                 </div>
-                            </Link >
                         )
                     })}
             </div>
