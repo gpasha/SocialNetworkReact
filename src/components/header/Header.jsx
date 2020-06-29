@@ -3,8 +3,8 @@ import "./Header.css";
 import { Link } from 'react-router-dom';
 
 function Header(props) {
-  console.log("Header props: ", props)
-  console.log("Header props.isAuthozied: ", props.isAuthozied)
+  // console.log("Header props: ", props)
+  // console.log("Header props.isAuthozied: ", props.isAuthozied)
     return (
       <header className="app-header">
         {

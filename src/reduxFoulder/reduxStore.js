@@ -5,6 +5,7 @@ import navigationReducer from './navigationReducer';
 import usersReducer from './usersReducer';
 import authorizeReducer from './authorizeReducer';
 import thunkMiddleware from 'redux-thunk';
+import { reducer as formReducer } from 'redux-form'; 
 
 
 let reducers = combineReducers({    
@@ -12,7 +13,8 @@ let reducers = combineReducers({
     messagesPage: messagesReducer,
     usersPage: usersReducer,
     navigation: navigationReducer,
-    authorize: authorizeReducer
+    authorize: authorizeReducer,
+    form: formReducer
 });
 
 let store = createStore(reducers, applyMiddleware(thunkMiddleware));

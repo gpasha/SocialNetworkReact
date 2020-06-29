@@ -25,3 +25,8 @@
     display: flex;
     justify-content: space-between;
 }
+
+.profile-info .profile-info__content-status {
+    font-size: 32px;
+    color: red;
+}

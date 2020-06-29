@@ -4,25 +4,40 @@ import './ProfileInfo.css';
 class ProfileInfo extends React.Component {
 
     state = {
-        editMode: false
+        editMode: false,
+        status: this.props.profileStatus
     }
 
-    activateEditMode() {
+    activateEditMode = () => {
         this.setState({
             editMode:  true
         });
     }
 
-    deactivateEditMode() {
+    deactivateEditMode = () => {
         this.setState({
             editMode:  false
         });
+        this.props.updateStatus(this.state.status);
+    }
+    
+    updateStatusText = (e) => {
+        this.setState({
+            status: e.target.value
+        });
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if ( prevProps.status !== this.props.status ) {
+            this.setState({
+                status: this.props.status
+            });
+        }
     }
 
     render() {
-        console.log("this.state: ", this.state);
-        console.log("this.state.profile: ", this.state.profile);
-        console.log("this.props.profile: ", this.props.profileData);
+        // console.log("this.state: ", this.state);
+        // console.log("this.props.profile: ", this.props.profileData);
         
         if ( !this.props.profileData ) {
             return null;
@@ -37,11 +52,14 @@ class ProfileInfo extends React.Component {
                     <div className="profile-info__content">
                         <div className="profile-info__content-title">Profile information</div>  
                         { !this.state.editMode &&
-                            <div className="profile-info__content-title" onDoubleClick={this.activateEditMode.bind(this)} >{this.props.profileData.aboutMe}</div> 
+                            <div className="profile-info__content-status" onDoubleClick={this.activateEditMode} >{this.props.profileStatus || 'no status'}</div> 
                         }
                         { this.state.editMode &&                                        
-                            <div className="profile-info__content-title">
-                                <input value={this.props.profileData.aboutMe} autoFocus={true} onBlur={this.deactivateEditMode.bind(this)} />
+                            <div className="profile-info__content-status">
+                                <input  value={this.state.status}
+                                        onChange={this.updateStatusText}
+                                        onBlur={this.deactivateEditMode}
+                                        autoFocus={true} />
                             </div>
                         }
                         <div className="profile-info__item">
