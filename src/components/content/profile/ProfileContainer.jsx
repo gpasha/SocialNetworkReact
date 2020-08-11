@@ -7,12 +7,18 @@ import { compose } from 'redux';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect.js';
 import { withRouter } from 'react-router-dom';
 
-class ProfileContainer extends React.Component {
+class ProfileContainer extends React.PureComponent {
 
     componentDidMount() {
         let userId = this.props.match.params.userId;        
         if ( !userId ) {
-            userId = 7851;
+            console.log("this.props.authorizedUserId: ", this.props.authorizedUserId)
+            // this.props.isAuthozied
+            // userId = 7851;
+            userId = this.props.authorizedUserId;
+            if ( !userId ) {
+                this.props.history.push("/login");
+            }
         }
         this.props.getProfile(userId);
         this.props.getStatus(userId);
@@ -37,7 +43,9 @@ let mapStateToProps = (state) => {
     return {        
         profileData: state.profilePage.profileData,
         profileStatus: state.profilePage.profileStatus,
-        isFetching: state.profilePage.isFetching
+        isFetching: state.profilePage.isFetching,
+        authorizedUserId: state.authorize.id,
+        // isAuthozied: state.authorize.isAuthozied
     }
 }
 

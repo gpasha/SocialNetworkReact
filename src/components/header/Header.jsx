@@ -9,7 +9,10 @@ function Header(props) {
       <header className="app-header">
         {
           props.isAuthozied
-            ? <div className="app-header__login">{props.login}</div> 
+            ? <div className="app-header__login">
+                {props.login}
+                <button onClick={props.logout}>Log out</button>
+              </div> 
             : <Link to="/login">
                 <div className="app-header__login">Login</div>  
               </Link>        

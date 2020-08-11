@@ -5,19 +5,23 @@ import { follow, unfollow,  changeCurrentPage, toggleFeth, getUsers } from '../.
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
+import { getAllUsers, getPageSize, getTotalCount, getCurrentPage, getFetching, getAllUsersSuper} from './../../../reduxFoulder/usersSelectors';
 
-class UsersApiContainer extends React.Component {
+class UsersApiContainer extends React.PureComponent {
 
     componentDidMount() {
-        this.props.getUsers(this.props.currentPage, this.props.pageSize);
+        let { currentPage, pageSize } = this.props;
+        this.props.getUsers(currentPage, pageSize);
     }
 
     changePage = (page) => {
-        this.props.getUsers(page, this.props.pageSize);
+        let { pageSize } = this.props;
+        this.props.getUsers(page, pageSize);
         this.props.changeCurrentPage(page);
     }
 
     render() {
+        console.log(" mapStateToProp USERS  = render = ");
         return   (
             <div>
                 <span>
@@ -37,12 +41,14 @@ class UsersApiContainer extends React.Component {
 }
 
 let mapStateToProp = (state) => {
+    console.log(" mapStateToProp USERS");
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalCount: state.usersPage.totalCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching
+        users: getAllUsers(state),
+        // users: getAllUsersSuper(state),
+        pageSize: getPageSize(state),
+        totalCount: getTotalCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getFetching(state)
     }
 }
 

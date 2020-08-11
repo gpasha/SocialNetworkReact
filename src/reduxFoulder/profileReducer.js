@@ -3,6 +3,7 @@ import { profileAPI } from '../api/api';
 const SET_PROFILE_DATA = "SET_PROFILE_DATA";
 const SET_STATUS = "SET_STATUS";
 const ADD_POST = "ADD-POST";
+const DELETE_POST = "DELETE_POST";
 const TOGGLE_FETCH = "TOGGLE_FETCH";
 
 let initialState = {
@@ -45,6 +46,11 @@ const profileReducer = (state = initialState, action) => {
                     likeCount: "0"
                 }]
             }
+        case DELETE_POST:
+            return {
+                ...state,
+                posts: [...state.posts].filter( post => post.id !== action.postId )
+            }
         case TOGGLE_FETCH:
                 return {
                     ...state,
@@ -58,37 +64,35 @@ const profileReducer = (state = initialState, action) => {
 export const setProfileData = (profileData) => ({ type: SET_PROFILE_DATA, profileData });
 export const setProfileStatus = (status) => ({ type: SET_STATUS, status });
 export const addPost = (newPost) => ({ type: ADD_POST, newPost });
+export const deletePost = (postId) => ({ type: DELETE_POST, postId })
 export const toggleFeth = (isFetching) =>({ type: TOGGLE_FETCH, isFetching });
 
 export const getProfile = (userId) => {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch(toggleFeth(true));
-        profileAPI.getProfile(userId).then( response => {
-            dispatch(setProfileData(response));
-            dispatch(toggleFeth(false));
-        })
+        let response = await profileAPI.getProfile(userId);
+        dispatch(setProfileData(response));
+        dispatch(toggleFeth(false));
     }
 }
 
 export const getStatus = (userId) => {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch(toggleFeth(true));
-        profileAPI.getStatus(userId).then( response => {
-            dispatch(setProfileStatus(response));
-            dispatch(toggleFeth(false));
-        })
+        let response = await profileAPI.getStatus(userId);
+        dispatch(setProfileStatus(response));
+        dispatch(toggleFeth(false));
     }
 }
 
 export const updateStatus = (status) => {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch(toggleFeth(true));
-        profileAPI.updateStatus(status).then( response => {
-            if ( response.data.resultCode === 0 ) {
-                dispatch(setProfileStatus(status));
-            }
-            dispatch(toggleFeth(false));
-        })
+        let response = await profileAPI.updateStatus(status);
+        if ( response.data.resultCode === 0 ) {
+            dispatch(setProfileStatus(status));
+        }
+        dispatch(toggleFeth(false));
     }
 }
 

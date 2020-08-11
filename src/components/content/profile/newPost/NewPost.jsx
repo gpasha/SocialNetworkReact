@@ -7,7 +7,9 @@ import { Textarea } from '../../../../Assets/FormsControls/FormsControls';
 
 let maxLength10 = maxLengthCreator(10);
 
-const NewPost = (props) => {
+const NewPost = React.memo((props) => {
+
+    console.log("NewPost");
     
     let PostBlock = props.profilePage.posts.map( post => <Post key={post.id} message={post.message} likes={post.likeCount}/> );    
 
@@ -39,6 +41,6 @@ const NewPost = (props) => {
 
         </div>
     )
-}
+});
 
 export default NewPost;

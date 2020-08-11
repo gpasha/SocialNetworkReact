@@ -1,32 +1,9 @@
 import React from 'react';
 import './ProfileInfo.css';
+import ProfileInfoStatus from './ProfileInfoStatus/ProfileInfoStatus';
 
 class ProfileInfo extends React.Component {
-
-    state = {
-        editMode: false,
-        status: this.props.profileStatus
-    }
-
-    activateEditMode = () => {
-        this.setState({
-            editMode:  true
-        });
-    }
-
-    deactivateEditMode = () => {
-        this.setState({
-            editMode:  false
-        });
-        this.props.updateStatus(this.state.status);
-    }
     
-    updateStatusText = (e) => {
-        this.setState({
-            status: e.target.value
-        });
-    }
-
     componentDidUpdate(prevProps, prevState) {
         if ( prevProps.status !== this.props.status ) {
             this.setState({
@@ -34,6 +11,30 @@ class ProfileInfo extends React.Component {
             });
         }
     }
+
+    //state = {
+    //     editMode: false,
+    //     status: this.props.profileStatus
+    // }
+
+    // activateEditMode = () => {
+    //     this.setState({
+    //         editMode:  true
+    //     });
+    // }
+
+    // deactivateEditMode = () => {
+    //     this.setState({
+    //         editMode:  false
+    //     });
+    //     this.props.updateStatus(this.state.status);
+    // }
+    
+    // updateStatusText = (e) => {
+    //     this.setState({
+    //         status: e.target.value
+    //     });
+    // }
 
     render() {
         // console.log("this.state: ", this.state);
@@ -50,8 +51,11 @@ class ProfileInfo extends React.Component {
                 <div className="profile-info__content-block">
                     <div className="profile-info__name">{this.props.profileData.fullName}</div>
                     <div className="profile-info__content">
-                        <div className="profile-info__content-title">Profile information</div>  
-                        { !this.state.editMode &&
+                        <div className="profile-info__content-title">Profile information</div>
+
+                        <ProfileInfoStatus props={this.props}/>
+                        
+                        {/* { !this.state.editMode &&
                             <div className="profile-info__content-status" onDoubleClick={this.activateEditMode} >{this.props.profileStatus || 'no status'}</div> 
                         }
                         { this.state.editMode &&                                        
@@ -61,7 +65,7 @@ class ProfileInfo extends React.Component {
                                         onBlur={this.deactivateEditMode}
                                         autoFocus={true} />
                             </div>
-                        }
+                        } */}
                         <div className="profile-info__item">
                             <div className="profile-info__item-name">Status</div>
                             <div className="profile-info__item-value">

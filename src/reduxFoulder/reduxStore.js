@@ -4,6 +4,7 @@ import messagesReducer from './messagesReducer';
 import navigationReducer from './navigationReducer';
 import usersReducer from './usersReducer';
 import authorizeReducer from './authorizeReducer';
+import appReducer from './appReducer';
 import thunkMiddleware from 'redux-thunk';
 import { reducer as formReducer } from 'redux-form'; 
 
@@ -14,6 +15,7 @@ let reducers = combineReducers({
     usersPage: usersReducer,
     navigation: navigationReducer,
     authorize: authorizeReducer,
+    app: appReducer,
     form: formReducer
 });
 
